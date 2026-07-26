@@ -48,21 +48,21 @@ uint32_t qp_stream_write_impl(const void *input_buf, uint32_t member_size, uint3
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Stream definition
 
-struct qp_stream_t {
+typedef struct qp_stream_t {
     int16_t (*get)(qp_stream_t *stream);
     bool (*put)(qp_stream_t *stream, uint8_t c);
     int (*seek)(qp_stream_t *stream, int32_t offset, int origin);
     int32_t (*tell)(qp_stream_t *stream);
     bool (*is_eof)(qp_stream_t *stream);
     void (*close)(qp_stream_t *stream);
-};
+} qp_stream_t;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Memory streams
 
 typedef struct qp_memory_stream_t {
     qp_stream_t base;
-    uint8_t *   buffer;
+    uint8_t    *buffer;
     int32_t     length;
     int32_t     position;
     bool        is_eof;
@@ -77,7 +77,7 @@ qp_memory_stream_t qp_make_memory_stream(void *buffer, int32_t length);
 
 typedef struct qp_file_stream_t {
     qp_stream_t base;
-    FILE *      file;
+    FILE       *file;
 } qp_file_stream_t;
 
 qp_file_stream_t qp_make_file_stream(FILE *f);

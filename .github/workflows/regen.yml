@@ -8,18 +8,24 @@ on:
     paths:
     - 'data/constants/**'
     - 'lib/python/**'
+    - 'quantum/rgblight/rgblight_breathe_table.h'
+    - 'quantum/keycodes.h'
+    - 'quantum/keymap_extras/**'
 
 jobs:
   regen:
     runs-on: ubuntu-latest
 
-    container: qmkfm/qmk_cli
+    container: ghcr.io/qmk/qmk_cli
 
     steps:
     - name: Disable safe.directory check
       run : git config --global --add safe.directory '*'
 
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
+
+    - name: Install dependencies
+      run: pip3 install -r requirements-dev.txt
 
     - name: Run qmk generators
       run: |
