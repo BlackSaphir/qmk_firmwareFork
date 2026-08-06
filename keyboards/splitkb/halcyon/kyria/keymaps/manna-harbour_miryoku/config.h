@@ -3,14 +3,41 @@
 
 #pragma once
 
-// Halcyon-Modul-Config direkt einbinden
+// ---------------------------------------------------------------------------
+// Halcyon-Modul-Config
+// ---------------------------------------------------------------------------
+// WICHTIG: Encoder und TFT-Display belegen dieselben Pins (26 / 27 / 16) und
+// halcyon.c erlaubt nur EIN "module_t module" pro Build. Deshalb darf immer
+// nur genau eine Modul-Config eingebunden werden. Die Flags HLC_*_BUILD werden
+// in der rules.mk aus den -e Variablen erzeugt.
+
 #include "users/halcyon_modules/splitkb/config.h"
-#include "users/halcyon_modules/splitkb/hlc_encoder/config.h"
+
+#ifdef HLC_ENCODER_BUILD
+#    include "users/halcyon_modules/splitkb/hlc_encoder/config.h"
+#endif
+
+#ifdef HLC_TFT_DISPLAY_BUILD
+#    include "users/halcyon_modules/splitkb/hlc_tft_display/config.h"
+#endif
+
+// ---------------------------------------------------------------------------
+// Split-Transport
+// ---------------------------------------------------------------------------
+// Das Display kann auf der Slave-Haelfte sitzen. Ohne diese beiden Defines
+// kennt der Slave weder layer_state noch den Lock-LED-Status und die Anzeige
+// bleibt auf "Base" stehen.
+// Beide Firmwares muessen dieselben SPLIT_*-Optionen haben, sonst passen die
+// Transport-Datenstrukturen nicht zusammen.
+
+#define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_LED_STATE_ENABLE
 
 #define SPLIT_TRANSPORT_MIRROR
 
-
-// --- Legacy-Keycode-Aliase (Miryoku nutzt alte Namen, QMK hat sie umbenannt) ---
+// ---------------------------------------------------------------------------
+// Legacy-Keycode-Aliase (Miryoku nutzt alte Namen, QMK hat sie umbenannt)
+// ---------------------------------------------------------------------------
 // Maustasten
 #define KC_BTN1 MS_BTN1
 #define KC_BTN2 MS_BTN2
@@ -32,7 +59,9 @@
 #define RGB_SAI RM_SATU
 #define RGB_VAI RM_VALU
 
-// --- Miryoku Layout-Mapping für LAYOUT_split_3x6_5 ---
+// ---------------------------------------------------------------------------
+// Miryoku Layout-Mapping fuer LAYOUT_split_3x6_5
+// ---------------------------------------------------------------------------
 #define XXX KC_NO
 
 #define LAYOUT_miryoku( \
