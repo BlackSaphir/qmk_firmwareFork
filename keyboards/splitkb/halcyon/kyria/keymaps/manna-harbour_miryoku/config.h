@@ -3,6 +3,13 @@
 
 #pragma once
 
+// Halcyon-Modul-Config direkt einbinden
+#include "users/halcyon_modules/splitkb/config.h"
+#include "users/halcyon_modules/splitkb/hlc_encoder/config.h"
+
+#define SPLIT_TRANSPORT_MIRROR
+
+
 // --- Legacy-Keycode-Aliase (Miryoku nutzt alte Namen, QMK hat sie umbenannt) ---
 // Maustasten
 #define KC_BTN1 MS_BTN1
